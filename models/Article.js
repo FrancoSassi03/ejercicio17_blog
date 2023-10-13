@@ -11,9 +11,18 @@ class Article extends Model {
         },
         title: {
           type: DataTypes.STRING,
+          allowNull:false,
         },
         content: {
           type: DataTypes.TEXT,
+          allowNull:false,
+        },
+        image: {
+          type: DataTypes.STRING,
+          allowNull:false,
+        },
+        authorId: {
+          type: DataTypes.BIGINT.UNSIGNED,
         },
       },
       {

@@ -11,11 +11,11 @@ const sequelize = new Sequelize(
   },
 );
 
-const User = require("./User");
+const Author = require("./Author");
 const Comment = require("./Comment");
 const Article = require("./Article");
 
-User.initModel(sequelize);
+Author.initModel(sequelize);
 Comment.initModel(sequelize);
 Article.initModel(sequelize);
 
@@ -26,7 +26,7 @@ Article.initModel(sequelize);
 
 module.exports = {
   sequelize,
-  User,
+  Author,
   Comment,
   Article,
 };
