@@ -28,6 +28,10 @@ module.exports = (app) => {
    * en inglés.
    */
 
+<<<<<<< Updated upstream
+=======
+  app.use("/author", authorRoutes);
+>>>>>>> Stashed changes
   app.use("/articles", articleRoutes);
   app.use("/comments", commentRoutes);
 
