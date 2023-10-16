@@ -26,6 +26,9 @@ Article.initModel(sequelize);
 Author.hasMany(Article);
 Article.belongsTo(Author);
 
+//ESTABLECER LAS RELACIONES acá, sanear article y author con las relaciones correctas one to many y belongs to
+// article has many comments, pero un comment belongs to article
+
 module.exports = {
   sequelize,
   Author,
