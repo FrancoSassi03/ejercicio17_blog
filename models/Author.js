@@ -24,7 +24,7 @@ class Author extends Model {
       },
       {
         sequelize,
-        modelName: "Author",
+        modelName: "author",
       },
     );
     return Author;

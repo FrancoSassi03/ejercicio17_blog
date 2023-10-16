@@ -16,10 +16,10 @@
  * no debería existir.
  */
 
-const { Article } = require("../models");
+const { Article, Author } = require("../models");
 
 async function showHome(req, res) {
-  const articles = await Article.findAll();
+  const articles = await Article.findAll({include : Author});
   res.render("home", { articles, headTitle: "El Blog de Hack Academy HOME" });
 }
 

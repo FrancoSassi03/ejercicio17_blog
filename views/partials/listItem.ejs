@@ -1,4 +1,6 @@
+<% console.log(article.author) %>
 <h3>
   <a href="article/<%= article.id %>"> <%= article.title %> </a>
 </h3>
-<p>Creado por <%= article.author %> el <%= article.createdAt %></p>
+<p>Creado por <%= article.author.firstname %> <%= article.author.lastname %> el <%= article.createdAt %></p>
+

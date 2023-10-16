@@ -9,6 +9,10 @@ class Comment extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
+        author: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
         content: {
           type: DataTypes.TEXT,
           allowNull: false,
