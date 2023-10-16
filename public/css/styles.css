@@ -22,3 +22,15 @@ footer > ul > li {
   font-size: 1rem;
   margin: 0 0.5rem;
 }
+.contenedor-con-fondo {
+  background-image: url('https://images.pexels.com/photos/442574/pexels-photo-442574.jpeg?cs=srgb&dl=pexels-jeshootscom-442574.jpg&fm=jpg');
+  background-size: cover;
+  width: 100%;
+  height: 388px;
+  padding-top: 8rem;
+
+}
+a {
+  text-decoration: none; 
+  color: inherit; 
+}
