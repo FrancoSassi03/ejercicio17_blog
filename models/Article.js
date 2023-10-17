@@ -21,9 +21,6 @@ class Article extends Model {
           type: DataTypes.STRING,
           allowNull:false,
         },
-        authorId: {
-          type: DataTypes.BIGINT.UNSIGNED,
-        },
       },
       {
         sequelize,

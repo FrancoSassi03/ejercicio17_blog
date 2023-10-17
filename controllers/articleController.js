@@ -1,4 +1,4 @@
-const { Article, Author } = require("../models");
+const { Article, Author, Comment } = require("../models");
 const { format } = require('date-fns');
 const { es } = require('date-fns/locale');
 
@@ -13,7 +13,13 @@ async function index(req, res) {
 }
 
 // Display the specified resource.
-async function show(req, res) {}
+async function show(req, res) {
+  //const article = await Article.findByPk(req.params.id, { include: [Author, {model: Comment, include: Author}] });
+  const article = await Article.findByPk(req.params.id, { include: Author });
+  const comments = await Comment.findAll({ where: { articleId: article.id }, include: Author });
+  const authors = await Author.findAll();
+  res.render("article", { article, comments, authors });
+}
 
 // Show the form for creating a new resource
 async function create(req, res) {
