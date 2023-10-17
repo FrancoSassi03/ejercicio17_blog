@@ -1,15 +1,16 @@
 const { Article, Author, Comment } = require("../models");
-const { format } = require('date-fns');
-const { es } = require('date-fns/locale');
+const { format } = require("date-fns");
+const { es } = require("date-fns/locale");
+const formidable = require("formidable");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const result = await Article.findAll({include : Author});
-  const formattedArticles = result.map(article => ({
+  const result = await Article.findAll({ include: Author });
+  const formattedArticles = result.map((article) => ({
     ...article.toJSON(),
-    createdAt: format(new Date(article.createdAt), "yyyy-MM-dd HH:mm:ss", { locale: es })
+    createdAt: format(new Date(article.createdAt), "yyyy-MM-dd HH:mm:ss", { locale: es }),
   }));
-  res.render("articles",{articles: formattedArticles})
+  res.render("articles", { articles: formattedArticles });
 }
 
 // Display the specified resource.
@@ -31,6 +32,7 @@ async function create(req, res) {
 async function store(req, res) {
   const { title, content, image, authorId } = req.body;
   await Article.create({ title, content, image, authorId });
+
   res.redirect("/admin");
 }
 
@@ -38,22 +40,21 @@ async function store(req, res) {
 async function edit(req, res) {
   const article = await Article.findByPk(req.params.id);
   const authors = await Author.findAll();
-  res.render("edit", {article,authors});
+  res.render("edit", { article, authors });
 }
 
 // Update the specified resource in storage.
-async function update(req, res) { 
-  console.log("hola");
-  const { title, content, image, authorId} = req.body;
+async function update(req, res) {
+  const { title, content, image, authorId } = req.body;
   const article = await Article.findByPk(req.params.id);
-  await article.update({ title, content, image, authorId});
+  await article.update({ title, content, image, authorId });
   res.redirect("/admin");
 }
 
 // Remove the specified resource from storage.
 async function destroy(req, res) {
-  await Article.destroy({ where: { id: req.params.id }});
-  res.redirect("/admin")
+  await Article.destroy({ where: { id: req.params.id } });
+  res.redirect("/admin");
 }
 
 // Otros handlers...
