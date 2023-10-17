@@ -25,6 +25,7 @@ footer > ul > li {
 .contenedor-con-fondo {
   background-image: url('https://images.pexels.com/photos/442574/pexels-photo-442574.jpeg?cs=srgb&dl=pexels-jeshootscom-442574.jpg&fm=jpg');
   background-size: cover;
+  background-position: center;
   width: 100%;
   height: 388px;
   padding-top: 8rem;
@@ -33,4 +34,11 @@ footer > ul > li {
 a {
   text-decoration: none; 
   color: inherit; 
+}
+.createdAtCol{
+  width: 100px;
+}
+
+.listImage{
+  width: 120px;
 }

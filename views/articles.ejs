@@ -37,17 +37,17 @@
         <% for( const article of articles) {%>
         <tr>
           <th scope="col"><%= article.id %></th>
-          <th scope="col"><%= article.title %></th>
-          <th scope="col"><%= article.content %></th>
-          <th scope="col"><img class="w-75" src="<%= article.image %>" alt="" /></th>
-          <th scope="col"><%= article.createdAt %></th>
-          <th scope="col"><%= article.author.firstname%> <%= article.author.lastname%></th>
-          <th scope="col" class=" ">
-            <a href="#" class="btn btn-primary m-2">Editar</a>
+          <td scope="col"><%= article.title %></td>
+          <td scope="col"><%= article.content %></td>
+          <td scope="col"><img class="listImage" src="<%= article.image %>" alt="" /></td>
+          <td scope="col" class="createdAtCol"><%= article.createdAt %></td>
+          <td scope="col"><%= article.author.firstname%> <%= article.author.lastname%></td>
+          <td scope="col" class=" ">
+            <a href="<%= `/articles/editar/${article.id}` %>" class="btn btn-primary m-2">Editar</a>
             <a href="<%= `/articles/destroy/${article.id}` %>" class="btn btn-danger ms-1"
               >Eliminar</a
             >
-          </th>
+          </td>
         </tr>
         <% } %>
       </table>

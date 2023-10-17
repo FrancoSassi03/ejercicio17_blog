@@ -17,10 +17,16 @@
  */
 
 const { Article, Author } = require("../models");
+const { format } = require('date-fns');
+const { es } = require('date-fns/locale');
 
 async function showHome(req, res) {
   const articles = await Article.findAll({include : Author});
-  res.render("home", { articles, headTitle: "El Blog de Hack Academy HOME" });
+  const formattedArticles = articles.map(article => ({
+    ...article.toJSON(),
+    createdAt: format(new Date(article.createdAt), "d 'de' MMMM',' y", { locale: es })
+  }));
+  res.render("home", { articles: formattedArticles, headTitle: "El Blog de Hack Academy HOME" });
 }
 
 async function showContact(req, res) {
