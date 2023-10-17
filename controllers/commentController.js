@@ -1,5 +1,4 @@
 const { Comment, Author } = require("../models");
-const { articleRoutes } = require("../routes");
 
 // Display a listing of the resource.
 async function index(req, res) {}

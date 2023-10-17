@@ -21,6 +21,7 @@ class Article extends Model {
           type: DataTypes.STRING,
           allowNull:false,
         },
+        
       },
       {
         sequelize,
