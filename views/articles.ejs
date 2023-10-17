@@ -39,7 +39,7 @@
           <th scope="col"><%= article.id %></th>
           <td scope="col"><%= article.title %></td>
           <td scope="col"><%= article.content %></td>
-          <td scope="col"><img class="listImage" src="<%= article.image %>" alt="" /></td>
+          <td scope="col"><img class="listImage" src="<%= article.image.includes("http" ) ? article.image : `/img/${article.image}` %>" alt="" /></td>
           <td scope="col" class="createdAtCol"><%= article.createdAt %></td>
           <td scope="col"><%= article.author.firstname%> <%= article.author.lastname%></td>
           <td scope="col" class=" ">

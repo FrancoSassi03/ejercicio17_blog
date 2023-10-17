@@ -20,9 +20,9 @@
     <section class="container ">
       <div class="row justify-content-center mt-4">
         <ol class="col-6">
-          <% for (let i = 0; i < 4; i++) { %>
+          <% for (let i = 0; i < articles.length; i++) { %>
           <li class=""><%- include("partials/listItem", {article: articles[i]}); %></li>
-          <% if(i<3){%>
+          <% if(i<articles.length -1){%>
           <hr>
           <% } %>
           <% }%>

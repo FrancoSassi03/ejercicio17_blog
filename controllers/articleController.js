@@ -29,11 +29,22 @@ async function create(req, res) {
 }
 
 // Store a newly created resource in storage.
-async function store(req, res) {
-  const { title, content, image, authorId } = req.body;
-  await Article.create({ title, content, image, authorId });
+function store(req, res) {
+  const form = formidable({
+    multiples: true,
+    uploadDir: __dirname + "/../public/img",
+    keepExtensions: true,
+  });
 
-  res.redirect("/admin");
+  form.parse(req, async (err, fields, files) => {
+    await Article.create({
+      title: fields.title,
+      content: fields.content,
+      image: files.image.newFilename,
+      authorId: fields.authorId,
+    });
+    res.redirect("/admin");
+  });
 }
 
 // Show the form for editing the specified resource.
@@ -45,10 +56,25 @@ async function edit(req, res) {
 
 // Update the specified resource in storage.
 async function update(req, res) {
-  const { title, content, image, authorId } = req.body;
-  const article = await Article.findByPk(req.params.id);
-  await article.update({ title, content, image, authorId });
-  res.redirect("/admin");
+  const form = formidable({
+    multiples: true,
+    uploadDir: __dirname + "/../public/img",
+    keepExtensions: true,
+  });
+
+  form.parse(req, async (err, fields, files) => {
+    const article = await Article.findByPk(req.params.id);
+    article.update({
+      title: fields.title,
+      content: fields.content,
+      authorId: fields.authorId,
+      image: files.image.size === 0 ? article.image : files.image.newFilename,
+    });
+
+    await article.save();
+
+    res.redirect("/admin");
+  });
 }
 
 // Remove the specified resource from storage.
