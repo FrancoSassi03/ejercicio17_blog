@@ -47,16 +47,16 @@
           />
         </div>
         <div class="mb-3">
-          <label for="authorId" class="form-label">Selecciona un autor</label>
+          <label for="userId" class="form-label">Selecciona un autor</label>
           <select
             class="form-select mb-2"
-            name="authorId"
-            id="authorId"
+            name="userId"
+            id="userId"
             aria-label="Default select example"
           >
             <option selected>Autores</option>
-            <% for (const author of authors) {%>
-            <option value="<%= author.id %>"><%= author.firstname %> <%= author.lastname %></option>
+            <% for (const user of users) {%>
+            <option value="<%= user.id %>"><%= user.firstname %> <%= user.lastname %></option>
             <% } %>
           </select>
         </div>

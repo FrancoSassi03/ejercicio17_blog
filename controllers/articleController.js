@@ -1,11 +1,11 @@
-const { Article, Author, Comment } = require("../models");
+const { Article, User, Comment } = require("../models");
 const { format } = require("date-fns");
 const { es } = require("date-fns/locale");
 const formidable = require("formidable");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const result = await Article.findAll({ include: Author });
+  const result = await Article.findAll({ include: User });
   const formattedArticles = result.map((article) => ({
     ...article.toJSON(),
     createdAt: format(new Date(article.createdAt), "yyyy-MM-dd HH:mm:ss", { locale: es }),
@@ -17,16 +17,16 @@ async function index(req, res) {
 async function show(req, res) {
   //const article = await Article.findByPk(req.params.id, { include: [Author, {model: Comment, include: Author}] });
   const article = await Article.findByPk(req.params.id);
-  const author = await Author.findByPk(article.authorId);
-  const comments = await Comment.findAll({ where: { articleId: req.params.id }, include: Author });
-  const authors = await Author.findAll();
-  res.render("article", { article, comments, authors, author });
+  const user = await User.findByPk(article.userId);
+  const comments = await Comment.findAll({ where: { articleId: req.params.id }, include: User });
+  const users = await User.findAll();
+  res.render("article", { article, comments, users, user });
 }
 
 // Show the form for creating a new resource
 async function create(req, res) {
-  const authors = await Author.findAll();
-  res.render("create", { authors: authors });
+  const users = await User.findAll();
+  res.render("create", { users: users });
 }
 
 // Store a newly created resource in storage.
@@ -42,7 +42,7 @@ function store(req, res) {
       title: fields.title,
       content: fields.content,
       image: files.image.newFilename,
-      authorId: fields.authorId,
+      userId: fields.userId,
     });
     res.redirect("/admin");
   });
@@ -51,8 +51,8 @@ function store(req, res) {
 // Show the form for editing the specified resource.
 async function edit(req, res) {
   const article = await Article.findByPk(req.params.id);
-  const authors = await Author.findAll();
-  res.render("edit", { article, authors });
+  const users = await User.findAll();
+  res.render("edit", { article, users });
 }
 
 // Update the specified resource in storage.
@@ -68,7 +68,7 @@ async function update(req, res) {
     article.update({
       title: fields.title,
       content: fields.content,
-      authorId: fields.authorId,
+      userId: fields.userId,
       image: files.image.size === 0 ? article.image : files.image.newFilename,
     });
 

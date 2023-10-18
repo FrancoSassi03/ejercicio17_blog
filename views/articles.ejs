@@ -41,7 +41,7 @@
           <td scope="col"><%= article.content %></td>
           <td scope="col"><img class="listImage" src="<%= article.image.includes("http" ) ? article.image : `/img/${article.image}` %>" alt="" /></td>
           <td scope="col" class="createdAtCol"><%= article.createdAt %></td>
-          <td scope="col"><%= article.author.firstname%> <%= article.author.lastname%></td>
+          <td scope="col"><%= article.user.firstname%> <%= article.user.lastname%></td>
           <td scope="col" class=" ">
             <a href="<%= `/articles/editar/${article.id}` %>" class="btn btn-primary m-2">Editar</a>
             <a href="<%= `/articles/destroy/${article.id}` %>" class="btn btn-danger ms-1"

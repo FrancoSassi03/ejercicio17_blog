@@ -16,22 +16,24 @@
  */
 
 const { fakerES: faker } = require("@faker-js/faker");
-const { Author } = require("../models");
+const { User } = require("../models");
 
 module.exports = async () => {
-  const authors = [];
+  const users = [];
 
   for (let i = 0; i < 8; i++) {
     const firstname = faker.person.firstName();
     const lastname = faker.person.lastName();
+    const pass = "1234";
 
-    authors.push({
+    users.push({
       firstname: firstname,
       lastname: lastname,
       email: faker.internet.email({ firstName: firstname, lastName: lastname }),
+      password: pass,
     });
   }
 
-  await Author.bulkCreate(authors);
-  console.log("[Database] Se corrió el seeder de Authors.");
+  await User.bulkCreate(users);
+  console.log("[Database] Se corrió el seeder de Users.");
 };

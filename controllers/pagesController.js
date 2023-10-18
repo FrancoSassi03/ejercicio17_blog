@@ -16,12 +16,12 @@
  * no debería existir.
  */
 
-const { Article, Author } = require("../models");
+const { Article, User } = require("../models");
 const { format } = require('date-fns');
 const { es } = require('date-fns/locale');
 
 async function showHome(req, res) {
-  const articles = await Article.findAll({include : Author});
+  const articles = await Article.findAll({include : User});
   const formattedArticles = articles.map(article => ({
     ...article.toJSON(),
     createdAt: format(new Date(article.createdAt), "d 'de' MMMM',' y", { locale: es })
@@ -36,6 +36,8 @@ async function showContact(req, res) {
 async function showAboutUs(req, res) {
   res.render("aboutUs");
 }
+
+
 
 // Otros handlers...
 // ...

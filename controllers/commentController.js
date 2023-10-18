@@ -1,4 +1,4 @@
-const { Comment, Author } = require("../models");
+const { Comment, User } = require("../models");
 
 // Display a listing of the resource.
 async function index(req, res) {}
@@ -11,8 +11,8 @@ async function create(req, res) {}
 
 // Store a newly created resource in storage.
 async function store(req, res) {
-  const { authorId, comment, article } = req.body;
-  await Comment.create({ authorId: authorId, content: comment, articleId: article });
+  const { userId, comment, article } = req.body;
+  await Comment.create({ userId: userId, content: comment, articleId: article });
   res.redirect("/articles/" + article);
 }
 
