@@ -15,9 +15,9 @@
   <body>
     <%- include("partials/navbar.ejs") %>
     <!--  -->
-    <header class="header-article" style="background-image: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.50) 0%), url('<%= article.image %>');">
+    <header class="header-article" style="background-image: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.50) 0%), url(<%= article.image.includes("http" ) ? article.image : `/img/${article.image}` %>);">
       <h1 class="text-white"><%= article.title %></h1>
-      <small class="text-secondary text-white">Creado por <%= article.author.firstname %> <%= article.author.lastname %> el <%= article.createdAt %></small>
+      <small class="text-secondary text-white">Creado por <%= author.firstname %> <%= author.lastname %> el <%= article.createdAt %></small>
     </header>
     <div class="container justify-content-center align-items-center w-50">
       <div class="row mt-3">
