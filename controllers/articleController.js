@@ -5,7 +5,8 @@ const formidable = require("formidable");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const result = await Article.findAll({ include: User });
+  const result = await Article.findAll({where: { userId : req.user.id }, include: User });
+  console.log(req);
   const formattedArticles = result.map((article) => ({
     ...article.toJSON(),
     createdAt: format(new Date(article.createdAt), "yyyy-MM-dd HH:mm:ss", { locale: es }),
@@ -20,7 +21,9 @@ async function show(req, res) {
   const user = await User.findByPk(article.userId);
   const comments = await Comment.findAll({ where: { articleId: req.params.id }, include: User });
   const users = await User.findAll();
-  res.render("article", { article, comments, users, user });
+  const userlogin = req.user != null;
+  console.log(userlogin);
+  res.render("article", { article, comments, users, user, userlogin });
 }
 
 // Show the form for creating a new resource

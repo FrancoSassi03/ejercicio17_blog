@@ -11,7 +11,8 @@ async function create(req, res) {}
 
 // Store a newly created resource in storage.
 async function store(req, res) {
-  const { userId, comment, article } = req.body;
+const userId = req.user.id;
+  const { comment, article } = req.body;
   await Comment.create({ userId: userId, content: comment, articleId: article });
   res.redirect("/articles/" + article);
 }
