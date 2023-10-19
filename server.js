@@ -9,9 +9,9 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 const { User } = require("./models");
 app.use(
