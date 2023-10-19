@@ -14,10 +14,12 @@ const sequelize = new Sequelize(
 const User = require("./User");
 const Comment = require("./Comment");
 const Article = require("./Article");
+const Roles = require("./Roles");
 
 User.initModel(sequelize);
 Comment.initModel(sequelize);
 Article.initModel(sequelize);
+Roles.initModel(sequelize);
 
 /**
  * Luego de definir los modelos, se pueden establecer relaciones entre los
@@ -32,6 +34,9 @@ Comment.belongsTo(User);
 Article.hasMany(Comment);
 Comment.belongsTo(Article);
 
+Roles.hasMany(User);
+User.belongsTo(Roles);
+
 //ESTABLECER LAS RELACIONES acá, sanear article y author con las relaciones correctas one to many y belongs to
 // article has many comments, pero un comment belongs to article
 
@@ -40,4 +45,5 @@ module.exports = {
   User,
   Comment,
   Article,
+  Roles,
 };

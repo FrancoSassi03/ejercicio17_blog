@@ -31,6 +31,7 @@ module.exports = async () => {
       lastname: lastname,
       email: faker.internet.email({ firstName: firstname, lastName: lastname }),
       password: pass,
+      roleId: faker.number.int({ min: 1, max: 3 }),
     });
   }
 
