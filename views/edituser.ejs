@@ -15,46 +15,63 @@
   <body>
     <%- include("partials/navbar.ejs") %>
     <div class="container d-flex flex-column justify-content-center align-items-center">
-      <form action="/articles/<%= article.id %>?_method=PATCH" method="post" class="w-50 mt-5" enctype="multipart/form-data">
-        <h1>Editar articulo</h1>
+      <form action="/users/<%= user.id %>?_method=PATCH" method="post" class="w-50 mt-5" enctype="multipart/form-data">
+        <h1>Editar usuario</h1>
         <div class="mb-3">
-          <label for="title" class="form-label">Titulo</label>
+          <label for="firstname" class="form-label">Nombre</label>
           <input
             type="text"
             class="form-control"
-            id="title"
-            name="title"
-            value="<%= article.title %>"
+            id="firstname"
+            name="firstname"
+            value="<%= user.firstname %>"
           />
         </div>
         <div class="mb-3">
-          <label for="content" class="form-label">Contenido</label>
-          <textarea
-            class="form-control"
-            id="content"
-            name="content"
-            rows="3"
-          ><%= article.content %></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="image" class="form-label">Url de la imagen</label>
+          <label for="lastname" class="form-label">Apellido</label>
           <input
-            type="file"
+            type="text"
             class="form-control"
-            id="image"
-            name="image"
-            value="<%= article.image %>"
+            id="lastname"
+            name="lastname"
+            value="<%= user.lastname %>"
           />
         </div>
-        <div class="mb-3 visually-hidden">
-          <label for="userId" class="form-label">Selecciona un autor</label>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            name="email"
+            value="<%= user.email %>"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input
+            type="text"
+            class="form-control"
+            id="password"
+            name="password"
+            value="<%= user.password %>"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="roleId" class="form-label">Selecciona un rol</label>
           <select
             class="form-select mb-2"
-            name="userId"
-            id="userId"
+            name="roleId"
+            id="roleId"
             aria-label="Default select example"
           >
-            <option value="<%= user.id %>" selected>Usuario</option>
+            <% for (const role of roles) {%>
+            <% if(user.roleId == role.id) { %>
+            <option value="<%= role.id %>" selected><%= role.rol %> </option>
+            <% }else{ %>
+             <option value="<%= role.id %>"><%= role.rol %></option>
+             <% } %>
+            <% } %>
           </select>
         </div>
         <button type="submit" class="btn btn-primary w-100">Editar</button>

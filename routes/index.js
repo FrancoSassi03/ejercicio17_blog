@@ -7,6 +7,8 @@ const userRoutes = require("./userRoutes");
 const articleRoutes = require("./articleRoutes");
 const commentRoutes = require("./commentRoutes");
 
+const makeUserAvailableInViews = require("../middlewares/makeUserAvailableInViews");
+
 /**
  * Otra alternativa podría ser organizar las rutas según su nivel de
  * privacidad (ej: si son rutas públicas o privadas).
@@ -28,8 +30,8 @@ module.exports = (app) => {
    * nombres de variables, funciones, etc, que siempre se recomienda que estén
    * en inglés.
    */
-
-  app.use("/user", userRoutes);
+  app.use(makeUserAvailableInViews);
+  app.use("/users", userRoutes);
   app.use("/articles", articleRoutes);
   app.use("/comments", commentRoutes);
 

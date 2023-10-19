@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const commentController = require("../controllers/commentController");
-const ensureIsAuthenticaded = require("../middlewares/ensureISAuthenticated")
+const ensureIsAuthenticaded = require("../middlewares/ensureISAuthenticated");
 // Rutas relacionadas a los comentarios:
 // ...
 

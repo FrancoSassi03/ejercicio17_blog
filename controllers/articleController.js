@@ -5,7 +5,13 @@ const formidable = require("formidable");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const result = await Article.findAll({where: { userId : req.user.id }, include: User });
+  const role = req.user.role.code >= 300;
+ let result= null;
+  if (role){
+    result = await Article.findAll({ include: User });
+  }else{
+    result = await Article.findAll({where: { userId : req.user.id }, include: User }); 
+  }
   const formattedArticles = result.map((article) => ({
     ...article.toJSON(),
     createdAt: format(new Date(article.createdAt), "yyyy-MM-dd HH:mm:ss", { locale: es }),
@@ -25,8 +31,7 @@ async function show(req, res) {
 
 // Show the form for creating a new resource
 async function create(req, res) {
-  const users = await User.findAll();
-  res.render("create", { users: users });
+  res.render("create");
 }
 
 // Store a newly created resource in storage.
@@ -51,8 +56,7 @@ function store(req, res) {
 // Show the form for editing the specified resource.
 async function edit(req, res) {
   const article = await Article.findByPk(req.params.id);
-  const users = await User.findAll();
-  res.render("edit", { article, users });
+  res.render("edit", { article });
 }
 
 // Update the specified resource in storage.
@@ -83,6 +87,7 @@ async function destroy(req, res) {
   await Article.destroy({ where: { id: req.params.id } });
   res.redirect("/admin");
 }
+
 
 // Otros handlers...
 // ...

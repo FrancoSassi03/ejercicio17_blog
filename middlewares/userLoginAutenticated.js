@@ -4,7 +4,10 @@ async function userLoginAutenticated(req, res, next) {
   if (req.isAuthenticated()) {
     const article = await Article.findByPk(req.params.id);
     if (article.userId === req.user.id) {
-      return next();
+      if (req.user.role.code >= 200) {
+       return next(); 
+      }
+      res.redirect("/");
     }
     res.redirect("/admin");
   } else {

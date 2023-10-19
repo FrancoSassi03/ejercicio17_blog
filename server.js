@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-const { User } = require("./models");
+const { User, Roles } = require("./models");
 app.use(
   session({
     secret: "AlgúnTextoSuperSecreto",
@@ -48,7 +48,7 @@ passport.use(new LocalStrategy({usernameField : "email"},async (email, password,
 
  passport.deserializeUser(async (id, cb) => {
   try {
-  const user = await User.findByPk(id);
+  const user = await User.findByPk(id,{include: Roles});
   cb(null, user); // Usuario queda disponible en req.user.
   } catch (err) {
   cb(err);

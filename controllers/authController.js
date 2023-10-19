@@ -1,7 +1,8 @@
-const { User } = require("../models");
+const { User, Roles } = require("../models");
 const passport = require("passport");
 
 async function showLogin(req, res) {
+ 
   res.render("login");
 }
 
@@ -9,8 +10,9 @@ const login = passport.authenticate("local", {
   successRedirect: "/admin",
   failureRedirect: "/login",
 });
-async function signup(req, res) {
-  res.render("registro");
+async function signup(req, res) { 
+  const roles = await Roles.findAll();
+  res.render("registro", { roles });
 }
 async function createuser(req, res) {
   const [user, created] = await User.findOrCreate({
@@ -20,6 +22,7 @@ async function createuser(req, res) {
       lastname: req.body.lastname,
       email: req.body.email,
       password: req.body.password,
+      roleId: req.body.roleId,
     },
   });
   if (created) {

@@ -46,7 +46,7 @@
             name="image"
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-3 visually-hidden">
           <label for="userId" class="form-label">Selecciona un autor</label>
           <select
             class="form-select mb-2"
@@ -54,10 +54,7 @@
             id="userId"
             aria-label="Default select example"
           >
-            <option selected>Autores</option>
-            <% for (const user of users) {%>
-            <option value="<%= user.id %>"><%= user.firstname %> <%= user.lastname %></option>
-            <% } %>
+            <option value="<%= user.id %>" selected>Usuario</option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary w-100">Crear</button>

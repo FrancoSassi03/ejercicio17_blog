@@ -16,7 +16,7 @@
  * no debería existir.
  */
 
-const { Article, User } = require("../models");
+const { Article, User, Roles } = require("../models");
 const { format } = require('date-fns');
 const { es } = require('date-fns/locale');
 
