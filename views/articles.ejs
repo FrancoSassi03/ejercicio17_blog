@@ -39,23 +39,27 @@
           <th scope="col"><%= article.id %></th>
           <td scope="col"><%= article.title %></td>
           <td scope="col"><%= article.content %></td>
-          <td scope="col"><img class="listImage" src="<%= article.image.includes("http" ) ? article.image : `/img/${article.image}` %>" alt="" /></td>
+          <td scope="col">
+            <img class="listImage" src="<%= article.image.includes("http" ) ? article.image :
+            `/img/${article.image}` %>" alt="" />
+          </td>
           <td scope="col" class="createdAtCol"><%= article.createdAt %></td>
           <td scope="col"><%= article.user.firstname%> <%= article.user.lastname%></td>
           <td scope="col" class=" ">
             <a href="<%= `/articles/editar/${article.id}` %>" class="btn btn-primary m-2">Editar</a>
-            <a href="<%= `/articles/destroy/${article.id}` %>" class="btn btn-danger ms-1"
-              >Eliminar</a
-            >
+            <form action="<%= `/articles/${article.id}` %>?_method=DELETE" method="post">
+            <button type="submit" class="btn btn-danger ms-1">Eliminar</button>
+          </form>
+          
           </td>
         </tr>
         <% } %>
       </table>
     </div>
-    <div class="footer ">
-        <hr />
-        <%- include("partials/footer.ejs") %>
-      </div>
+    <div class="footer">
+      <hr />
+      <%- include("partials/footer.ejs") %>
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
