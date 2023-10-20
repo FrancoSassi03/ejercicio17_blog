@@ -7,6 +7,7 @@ const adminAutenticated = require("../middlewares/adminAuthenticated");
 // ...
 
 router.get("/crear", userController.create);
+router.get("/config", userController.config);
 router.post("/", userController.store);
 router.get("/:id", userController.show);
 router.get("/editar/:id",adminAutenticated, userController.edit);

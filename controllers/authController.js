@@ -1,5 +1,6 @@
 const { User, Roles } = require("../models");
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 async function showLogin(req, res) {
  
@@ -15,14 +16,15 @@ async function signup(req, res) {
   res.render("registro", { roles });
 }
 async function createuser(req, res) {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const [user, created] = await User.findOrCreate({
     where: { email: req.body.email },
     defaults: {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
-      password: req.body.password,
-      roleId: req.body.roleId,
+      password: hashedPassword,
+      roleId: 1,
     },
   });
   if (created) {

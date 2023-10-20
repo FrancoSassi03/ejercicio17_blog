@@ -8,6 +8,7 @@ const app = express();
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const bcrypt = require("bcryptjs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -30,7 +31,8 @@ passport.use(new LocalStrategy({usernameField : "email"},async (email, password,
   console.log("Email de usuario no existe.");
   return cb(null, false, { message: "Credenciales incorrectas." });
   }
-  const match = password === user.password;
+  const match = await bcrypt.compare(password, user.password);
+  console.log(match, password);
   if (!match) {
   console.log("La contraseña es inválida.");
   return cb(null, false, { message: "Credenciales incorrectas. Por favor, reintentar." });

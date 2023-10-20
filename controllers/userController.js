@@ -2,6 +2,7 @@ const { User, Roles, Article, Comment } = require("../models");
 const { format } = require("date-fns");
 const { es } = require("date-fns/locale");
 const formidable = require("formidable");
+const bcrypt = require("bcryptjs");
 
 // Display a listing of the resource.
 async function indexUsers(req, res) {
@@ -21,7 +22,9 @@ async function create(req, res) {
   const roles = await Roles.findAll();
   res.render("createuser", { roles });
 }
-
+async function config(req, res) {
+  res.render("config");
+}
 // Store a newly created resource in storage.
 async function store(req, res) {
   const form = formidable({
@@ -31,11 +34,13 @@ async function store(req, res) {
   });
 
   form.parse(req, async (err, fields, files) => {
+    
+    const hashedPassword = await bcrypt.hash(fields.password, 10);
     await User.create({
       firstname: fields.firstname,
       lastname: fields.lastname,
       email: fields.email,
-      password: fields.password,
+      password: hashedPassword,
       roleId: fields.roleId,
     });
     res.redirect("/admin/users");
@@ -63,7 +68,6 @@ async function update(req, res) {
       firstname: fields.firstname,
       lastname: fields.lastname,
       email: fields.email,
-      password: fields.password,
       roleId: fields.roleId,
     });
 
@@ -76,16 +80,21 @@ async function update(req, res) {
 // Remove the specified resource from storage.
 async function destroy(req, res) {
   const anonimo = await User.findOne({ where: { email: "anonimo" } });
+  const articles = await Article.findAll({ where: { userId: req.params.id } });
+  const hashedPassword = await bcrypt.hash("1234", 10);
   if (!anonimo) {
     const user = await User.findByPk(req.params.id);
     user.update({
       firstname: "Anonimo",
       lastname: "",
       email: "anonimo",
-      password: "1234",
+      password: hashedPassword,
       roleId: 1,
     });
     await user.save();
+    for (const article of articles) {
+      await Comment.destroy({ where: { articleId: article.id  }});
+    }
     await Article.destroy({ where: { userId: req.params.id } });
   } else {
     const comments = await Comment.findAll({ where: { userId: req.params.id } });
@@ -95,11 +104,17 @@ async function destroy(req, res) {
       });
       await comment.save();
     }
+    for (const article of articles) {
+      await Comment.destroy({ where: { articleId: article.id  }});
+    }
     await Article.destroy({ where: { userId: req.params.id } });
     await User.destroy({ where: { id: req.params.id } });
   }
-
-  res.redirect("/admin/users");
+  if(req.user.id == req.params.id){
+    res.redirect("/logout");
+}else{
+res.redirect("/admin/users");
+}
 }
 
 // Otros handlers...
@@ -109,6 +124,7 @@ module.exports = {
   indexUsers,
   show,
   create,
+  config,
   store,
   edit,
   update,

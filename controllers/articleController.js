@@ -22,11 +22,14 @@ async function index(req, res) {
 // Display the specified resource.
 async function show(req, res) {
   //const article = await Article.findByPk(req.params.id, { include: [Author, {model: Comment, include: Author}] });
-  const article = await Article.findByPk(req.params.id);
-  const user = await User.findByPk(article.userId);
+  const article = await Article.findByPk(req.params.id); 
+  const author = await User.findByPk(article.userId);
   const comments = await Comment.findAll({ where: { articleId: req.params.id }, include: User });
-  const users = await User.findAll();
-  res.render("article", { article, comments, users, user });
+  const formattedArticles = {
+    ...article.toJSON(),
+    createdAt: format(new Date(article.createdAt), "d 'de' MMMM',' y", { locale: es }),
+  };
+  res.render("article", { article : formattedArticles, comments, author });
 }
 
 // Show the form for creating a new resource
@@ -47,7 +50,7 @@ function store(req, res) {
       title: fields.title,
       content: fields.content,
       image: files.image.newFilename,
-      userId: fields.userId,
+      userId: req.user.id,
     });
     res.redirect("/admin");
   });
@@ -69,10 +72,11 @@ async function update(req, res) {
 
   form.parse(req, async (err, fields, files) => {
     const article = await Article.findByPk(req.params.id);
+    const userid = article.userId;
     article.update({
       title: fields.title,
       content: fields.content,
-      userId: fields.userId,
+      userId: userid,
       image: files.image.size === 0 ? article.image : files.image.newFilename,
     });
 
@@ -84,6 +88,7 @@ async function update(req, res) {
 
 // Remove the specified resource from storage.
 async function destroy(req, res) {
+  await Comment.destroy({ where: { articleId: req.params.id}});
   await Article.destroy({ where: { id: req.params.id } });
   res.redirect("/admin");
 }

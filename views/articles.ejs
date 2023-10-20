@@ -16,10 +16,12 @@
     <%- include("partials/navbar.ejs") %>
     <div class="container">
       <div class="row">
-        <div class="col-11"><h1>Listado de articulos</h1></div>
-        <div class="col-1">
+        <div class="col-11" ><h1 style="font-weight: bolder;">Listado de articulos</h1></div>
+        <div class="col-1 d-flex justify-content-end align-items-center gap-1 text-center">
           <a href="/articles/crear" class="btn btn-success mt-2">Nuevo</a>
+          <% if(user.role.code >= 300){ %>
           <a href="/admin/users" class="btn btn-success mt-2">Usuarios</a>
+          <% } %>
         </div>
       </div>
 
@@ -39,7 +41,7 @@
         <tr>
           <th scope="col"><%= article.id %></th>
           <td scope="col"><%= article.title %></td>
-          <td scope="col"><%= article.content %></td>
+          <td scope="col"><%= article.content.substring(0,200) %></td>
           <td scope="col">
             <img class="listImage" src="<%= article.image.includes("http" ) ? article.image :
             `/img/${article.image}` %>" alt="" />
