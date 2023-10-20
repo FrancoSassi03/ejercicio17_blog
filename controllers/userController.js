@@ -1,16 +1,16 @@
-const { User, Roles } = require("../models");
+const { User, Roles, Article, Comment } = require("../models");
 const { format } = require("date-fns");
 const { es } = require("date-fns/locale");
 const formidable = require("formidable");
 
 // Display a listing of the resource.
 async function indexUsers(req, res) {
-  const result = await User.findAll({include: Roles});
+  const result = await User.findAll({ include: Roles });
   const formattedUsers = result.map((user) => ({
     ...user.toJSON(),
     createdAt: format(new Date(user.createdAt), "yyyy-MM-dd HH:mm:ss", { locale: es }),
   }));
-  res.render("listUsers", { users:  formattedUsers});
+  res.render("listUsers", { users: formattedUsers });
 }
 
 // Display the specified resource.
@@ -75,7 +75,30 @@ async function update(req, res) {
 
 // Remove the specified resource from storage.
 async function destroy(req, res) {
-  await User.destroy({ where: { id: req.params.id } });
+  const anonimo = await User.findOne({ where: { email: "anonimo" } });
+  if (!anonimo) {
+    const user = await User.findByPk(req.params.id);
+    user.update({
+      firstname: "Anonimo",
+      lastname: "",
+      email: "anonimo",
+      password: "1234",
+      roleId: 1,
+    });
+    await user.save();
+    await Article.destroy({ where: { userId: req.params.id } });
+  } else {
+    const comments = await Comment.findAll({ where: { userId: req.params.id } });
+    for (const comment of comments) {
+      comment.update({
+        userId: anonimo.id,
+      });
+      await comment.save();
+    }
+    await Article.destroy({ where: { userId: req.params.id } });
+    await User.destroy({ where: { id: req.params.id } });
+  }
+
   res.redirect("/admin/users");
 }
 
